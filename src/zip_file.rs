@@ -1,8 +1,9 @@
 use askama::Template;
 use regex::Regex;
 use std::io::{Cursor, Write};
+use time::OffsetDateTime;
 use zip::write::SimpleFileOptions;
-use zip::{ZipArchive, ZipWriter};
+use zip::{DateTime, ZipArchive, ZipWriter};
 
 static GITIGNORE: &str = include_str!("resources/assets/zip/gitignore");
 static MAVEN_WRAPPER_PROPERTIES: &str = include_str!("resources/assets/zip/maven-wrapper.properties");
@@ -69,8 +70,11 @@ impl ProjectFile {
     pub fn to_zip_archive(&self) -> Result<ZipArchive<Cursor<Vec<u8>>>, ()> {
         let mut archive = Cursor::new(Vec::new());
         let mut zip = ZipWriter::new(&mut archive);
+        let now = OffsetDateTime::now_utc();
         let options =
-            SimpleFileOptions::default().compression_method(zip::CompressionMethod::DEFLATE);
+            SimpleFileOptions::default()
+                .compression_method(zip::CompressionMethod::DEFLATE)
+                .last_modified_time(DateTime::try_from(now).unwrap());
 
         zip.start_file("HELP.md", options).map_err(|_| ())?;
         zip.write(
@@ -119,6 +123,8 @@ impl ProjectFile {
             .map_err(|_| ())?;
         zip.write(format!("onkostar-api={}", self.os_version).as_bytes())
             .map_err(|_| ())?;
+
+        zip.start_file("src/main/resources/de/itc/onkostar/library/", options).map_err(|_| ())?;
 
         zip.start_file(
             "src/main/resources/de/itc/onkostar/library/moduleContext.xml",
