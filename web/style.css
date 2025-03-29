@@ -1,0 +1,126 @@
+@import "tailwindcss";
+
+body {
+    @apply bg-slate-200 flex flex-col h-screen;
+}
+
+main {
+    @apply bg-white container mx-auto px-10 py-1 flex-grow;
+}
+
+footer {
+    @apply bg-slate-600 text-slate-200 container mx-auto px-10 py-5 bottom-0
+}
+
+h1 {
+    @apply font-bold text-2xl my-10
+}
+
+h2 {
+    @apply font-bold text-xl
+}
+
+main .logo {
+    @apply h-10 my-5
+}
+
+main > form {
+    @apply w-fit mx-auto
+}
+
+main > form > div {
+    @apply mb-8
+}
+
+button,
+input[type=radio],
+#os_version label,
+#project_type label {
+    @apply cursor-pointer
+}
+
+input[type=text] {
+    @apply border-b-2 border-b-sky-800 outline-none font-mono w-xl transition-colors duration-100
+}
+input[type=text]:focus-visible {
+    @apply border-b-amber-500
+}
+
+input[type=radio] {
+    @apply appearance-none border-2 rounded-full transition-colors duration-100;
+    width: 1em;
+    height: 1em;
+}
+input[type=radio]:checked,
+input[type=radio]:hover {
+    @apply text-amber-500 bg-amber-500;
+}
+
+#submit {
+    @apply border-2 border-black rounded-md px-6 py-2 uppercase font-bold mx-auto my-8 w-fit block transition-colors duration-100
+}
+#submit:focus-visible,
+#submit:hover {
+    @apply bg-black text-white outline-none;
+}
+#submit > .key {
+    @apply font-normal
+}
+
+.control-inline {
+    @apply flex py-2
+}
+.control-inline label {
+    flex: 10rem 0;
+}
+
+#os_version, #project_type {
+    @apply grid grid-cols-5 py-2;
+}
+
+input[type=radio][disabled],
+input[type=radio][disabled]:checked,
+input[type=radio][disabled]:hover {
+    @apply text-gray-500 bg-transparent
+}
+
+label[aria-disabled] {
+    @apply text-gray-500 cursor-default
+}
+
+.twoside {
+    @apply flex border-t-2 border-t-slate-200 pt-10
+}
+
+.twoside > .left {
+    @apply pr-10 mr-10 flex-1/2 border-r-2 border-r-slate-200
+}
+
+.twoside > .right {
+    @apply flex-1/2;
+}
+
+.bullets {
+    @apply list-disc list-inside
+}
+
+footer p,
+.info p {
+    @apply my-3
+}
+
+footer p {
+    @apply text-center
+}
+
+footer p.notice {
+    @apply text-slate-400 text-left
+}
+
+footer p.notice a {
+    @apply text-slate-50 underline
+}
+
+footer svg {
+    @apply w-5 mx-auto pb-3
+}

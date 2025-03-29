@@ -1,0 +1,19 @@
+[package]
+name = "os-plugin-initializer"
+version = "0.1.0"
+edition = "2024"
+authors = ["Paul-Christian Volkmer <code@pcvolkmer.de>"]
+license = "AGPL-3"
+
+[dependencies]
+axum = { version = "0.7", features = ["query"]}
+askama = { version = "0.12", default-features = false }
+askama_axum = { version = "0.4" }
+tokio = { version = "1.43", features = ["rt-multi-thread"] }
+tower-http = { version = "0.6", features = ["trace"] }
+tracing-subscriber = "0.3"
+tracing = "0.1"
+include_dir = "0.7"
+serde = { version = "1.0.219", features = ["derive"] }
+zip = "2.5"
+regex = "1.11"

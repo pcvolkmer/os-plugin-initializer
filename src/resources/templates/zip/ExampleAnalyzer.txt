@@ -1,0 +1,98 @@
+package {{ package_name }};
+
+import de.itc.onkostar.api.Disease;
+import de.itc.onkostar.api.Procedure;
+import de.itc.onkostar.api.IOnkostarApi;
+import de.itc.onkostar.api.analysis.AnalyzerRequirement;
+import de.itc.onkostar.api.analysis.IProcedureAnalyzer;
+import de.itc.onkostar.api.analysis.OnkostarPluginType;
+import org.springframework.stereotype.Component;
+
+import java.util.Map;
+
+/**
+ * Example Analyzer
+ */
+@Component
+public class ExampleAnalyzer implements IProcedureAnalyzer {
+
+    private final IOnkostarApi onkostarApi;
+
+    public ExampleAnalyzer(IOnkostarApi onkostarApi) {
+        this.onkostarApi = onkostarApi;
+    }
+
+    @Override
+    public OnkostarPluginType getType() {
+        return OnkostarPluginType.BACKEND_SERVICE;
+    }
+
+    @Override
+    public String getVersion() {
+        return "0.1.0";
+    }
+
+    @Override
+    public String getName() {
+        return "Example Plugin";
+    }
+
+    @Override
+    public String getDescription() {
+        return "Beispiel Plugin";
+    }
+
+    @Override
+    public boolean isSynchronous() {
+        return false;
+    }
+
+    @Override
+    public AnalyzerRequirement getRequirement() {
+        return AnalyzerRequirement.PROCEDURE;
+    }
+
+    @Override
+    public boolean isRelevantForDeletedProcedure() {
+        return false;
+    }
+
+    @Override
+    public boolean isRelevantForAnalyzer(final Procedure procedure, final Disease disease) {
+        return false;
+    }
+
+    @Override
+    public void analyze(final Procedure procedure, final Disease disease) {
+        // Implement your analyzer
+    }
+
+    /**
+     * Example of a Plugin Method
+     * Usage in script:
+     *
+     * <pre>
+     *      executePluginMethod(
+     *          'ExamplePlugin',
+     *          'demo',
+     *          { value: 'Patrick Tester' },
+     *          function (result) {console.log(result);},
+     *          false
+     *      );
+     * </pre>
+     *
+     * @param input The data Map
+     * @return An example string
+     */
+    public String demo(final Map<String, Object> input) {
+        String valueString = "";
+        if (null != input.get("value")) {
+            valueString = input.get("value").toString();
+        } else {
+            throw new RuntimeException("Ohoh ...");
+        }
+
+        return String.format("Hallo, %s", valueString);
+    }
+
+}
