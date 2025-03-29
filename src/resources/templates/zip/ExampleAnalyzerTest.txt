@@ -16,7 +16,7 @@ class ExampleAnalyzerTest {
 
     @BeforeEach
     void setup(
-            @Mock IOnkostarApi onkostarApi,
+            @Mock IOnkostarApi onkostarApi
     ) {
         this.onkostarApi = onkostarApi;
         this.analyzer = new ExampleAnalyzer(onkostarApi);
