@@ -1,7 +1,6 @@
 use askama::Template;
 use regex::Regex;
 use std::io::{Cursor, Write};
-use include_dir::{include_dir, Dir};
 use zip::write::SimpleFileOptions;
 use zip::{ZipArchive, ZipWriter};
 

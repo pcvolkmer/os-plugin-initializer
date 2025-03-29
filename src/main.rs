@@ -1,7 +1,6 @@
 mod zip_file;
 
 use crate::zip_file::ProjectFile;
-use askama::DynTemplate;
 use askama_axum::{IntoResponse, Response, Template};
 use axum::Router;
 use axum::body::Body;
@@ -11,13 +10,10 @@ use axum::http::header::CONTENT_TYPE;
 use axum::routing::get;
 use include_dir::{Dir, include_dir};
 use serde::Deserialize;
-use std::io::{Cursor, Read, Write};
-use std::{env, fs, path};
+use std::{env, path};
 #[cfg(debug_assertions)]
 use tower_http::trace::TraceLayer;
 use tracing::log::{error, info};
-use zip::write::SimpleFileOptions;
-use zip::{ZipArchive, ZipWriter};
 
 static ASSETS: Dir = include_dir!("src/resources/assets");
 
