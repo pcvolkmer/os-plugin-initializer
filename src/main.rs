@@ -17,6 +17,8 @@ use tracing::log::{error, info};
 
 static ASSETS: Dir = include_dir!("src/resources/assets");
 
+static OS_VERSIONS: &[&str] = &["2.14.0", "2.13.2"];
+
 #[derive(Deserialize)]
 struct Params {
     project_type: String,
@@ -29,16 +31,27 @@ struct Params {
 
 #[derive(Template)]
 #[template(path = "index.html")]
-struct IndexTemplate {}
+struct IndexTemplate {
+    os_versions: Vec<String>,
+}
 
 async fn index() -> IndexTemplate {
-    IndexTemplate {}
+    IndexTemplate {
+        os_versions: OS_VERSIONS
+            .iter()
+            .map(|version| version.to_string())
+            .collect::<Vec<String>>(),
+    }
 }
 
 async fn zip_package(params: Query<Params>) -> impl IntoResponse {
     let zip = ProjectFile::new(
         params.project_type.to_string(),
-        params.os_version.to_string(),
+        if OS_VERSIONS.contains(&params.os_version.as_str()) {
+            params.os_version.to_string()
+        } else {
+            OS_VERSIONS.first().unwrap().to_string()
+        },
         params.group.to_string(),
         params.artifact.to_string(),
         params.description.to_string(),
