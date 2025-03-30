@@ -6,9 +6,8 @@ authors = ["Paul-Christian Volkmer <code@pcvolkmer.de>"]
 license = "AGPL-3"
 
 [dependencies]
-axum = { version = "0.7", features = ["query"]}
-askama = { version = "0.12", default-features = false }
-askama_axum = { version = "0.4" }
+axum = { version = "0.8", features = ["query"]}
+askama = { version = "0.13" }
 tokio = { version = "1.43", features = ["rt-multi-thread", "signal"] }
 tower-http = { version = "0.6", features = ["trace"] }
 tracing-subscriber = "0.3"

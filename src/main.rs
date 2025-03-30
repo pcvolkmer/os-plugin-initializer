@@ -1,12 +1,13 @@
 mod zip_file;
 
 use crate::zip_file::ProjectFile;
-use askama_axum::{IntoResponse, Response, Template};
+use askama::Template;
 use axum::Router;
 use axum::body::Body;
 use axum::extract::{Path, Query};
 use axum::http::StatusCode;
 use axum::http::header::CONTENT_TYPE;
+use axum::response::{Html, IntoResponse, Response};
 use axum::routing::get;
 use include_dir::{Dir, include_dir};
 use serde::Deserialize;
@@ -45,13 +46,17 @@ struct IndexTemplate {
     os_versions: Vec<String>,
 }
 
-async fn index() -> IndexTemplate {
-    IndexTemplate {
+async fn index() -> Result<impl IntoResponse, ()> {
+    let rendered = IndexTemplate {
         os_versions: OS_VERSIONS
             .iter()
             .map(|version| version.to_string())
             .collect::<Vec<String>>(),
     }
+    .render()
+    .map_err(|_| ())?;
+
+    Ok(Html(rendered))
 }
 
 async fn zip_package(params: Query<Params>) -> impl IntoResponse {
@@ -125,7 +130,7 @@ async fn main() {
         .route("/", get(index))
         .route("/project.zip", get(zip_package))
         .route(
-            "/assets/*path",
+            "/assets/{*path}",
             get(|path| async { serve_asset(path).await }),
         );
 
@@ -165,6 +170,6 @@ async fn shutdown_signal() {
 
     #[cfg(not(unix))]
     let terminate = std::future::pending::<()>();
-    
+
     terminate.await;
 }
