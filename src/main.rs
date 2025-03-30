@@ -12,9 +12,12 @@ use include_dir::{Dir, include_dir};
 use serde::Deserialize;
 use std::sync::LazyLock;
 use std::{env, path};
+use tracing::log::{error, info};
+
+#[cfg(unix)]
+use tokio::signal;
 #[cfg(debug_assertions)]
 use tower_http::trace::TraceLayer;
-use tracing::log::{error, info};
 
 static ASSETS: Dir = include_dir!("src/resources/assets");
 
@@ -139,11 +142,29 @@ async fn main() {
             } else {
                 info!("Listening on {}:{}", address.ip(), address.port());
             }
-            match axum::serve(listener, app).await {
+            match axum::serve(listener, app)
+                .with_graceful_shutdown(shutdown_signal())
+                .await
+            {
                 Ok(_) => {}
                 Err(err) => error!("Unable to start application: {}", err),
             }
         }
         Err(err) => error!("Unable to bind server port: {}", err),
     }
+}
+
+async fn shutdown_signal() {
+    #[cfg(unix)]
+    let terminate = async {
+        signal::unix::signal(signal::unix::SignalKind::terminate())
+            .expect("failed to install signal handler")
+            .recv()
+            .await;
+    };
+
+    #[cfg(not(unix))]
+    let terminate = std::future::pending::<()>();
+    
+    terminate.await;
 }

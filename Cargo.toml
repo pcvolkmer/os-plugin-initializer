@@ -9,7 +9,7 @@ license = "AGPL-3"
 axum = { version = "0.7", features = ["query"]}
 askama = { version = "0.12", default-features = false }
 askama_axum = { version = "0.4" }
-tokio = { version = "1.43", features = ["rt-multi-thread"] }
+tokio = { version = "1.43", features = ["rt-multi-thread", "signal"] }
 tower-http = { version = "0.6", features = ["trace"] }
 tracing-subscriber = "0.3"
 tracing = "0.1"
