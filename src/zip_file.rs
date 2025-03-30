@@ -92,7 +92,6 @@ impl ProjectFile {
                     .map(|s| s.to_string())
                     .collect::<Vec<String>>()
                     .join("/");
-                println!("{}", path);
                 let _ = zip.add_directory(path, options);
             });
         }

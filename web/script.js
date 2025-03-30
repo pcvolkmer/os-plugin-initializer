@@ -2,7 +2,7 @@ import * as styles from './style.css';
 
 function handleDownload() {
     let project_type = document.getElementById('maven').checked ? 'maven' : 'gradle';
-    let os_version = document.getElementById('2.14.0').checked ? '2.14.0' : '2.13.2';
+    let os_version = document.querySelectorAll('#os_version input:checked')[0].id;
     let group = document.getElementById('group').value
         .toLowerCase()
         .replaceAll(/\.+/g, '.')

@@ -23,7 +23,7 @@
                             <input id="maven" type="radio" name="project_type" checked="checked" />
                             <label for="maven">Maven</label>
                         </span>
-                                <span>
+                        <span>
                             <input id="gradle" type="radio" name="project_type" />
                             <label for="gradle">Gradle</label>
                         </span>
@@ -31,14 +31,12 @@
 
                     <h2>Onkostar Version</h2>
                     <div id="os_version">
+                        {% for os_version in os_versions %}
                         <span>
-                            <input id="2.14.0" type="radio" name="os_version" checked="checked" />
-                            <label for="2.14.0">2.14.0</label>
+                            <input id="{{ os_version }}" type="radio" name="os_version" {% if loop.first %} checked="checked" {% endif %} />
+                            <label for="{{ os_version }}">{{ os_version }}</label>
                         </span>
-                                <span>
-                            <input id="2.13.2" type="radio" name="os_version" />
-                            <label for="2.13.2">2.13.2</label>
-                        </span>
+                        {% endfor %}
                     </div>
 
                     <h2>Project Metadata</h2>
