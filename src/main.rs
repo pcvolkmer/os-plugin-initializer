@@ -10,6 +10,7 @@ use axum::http::header::CONTENT_TYPE;
 use axum::routing::get;
 use include_dir::{Dir, include_dir};
 use serde::Deserialize;
+use std::sync::LazyLock;
 use std::{env, path};
 #[cfg(debug_assertions)]
 use tower_http::trace::TraceLayer;
@@ -17,7 +18,13 @@ use tracing::log::{error, info};
 
 static ASSETS: Dir = include_dir!("src/resources/assets");
 
-static OS_VERSIONS: &[&str] = &["2.14.0", "2.13.2"];
+static OS_VERSIONS: LazyLock<Vec<String>> = LazyLock::new(|| {
+    env::var("OS_VERSIONS")
+        .unwrap_or_else(|_| "2.14.0,2.13.2".to_string())
+        .split(",")
+        .map(|v| v.to_string())
+        .collect::<Vec<String>>()
+});
 
 #[derive(Deserialize)]
 struct Params {
@@ -47,7 +54,7 @@ async fn index() -> IndexTemplate {
 async fn zip_package(params: Query<Params>) -> impl IntoResponse {
     let zip = ProjectFile::new(
         params.project_type.to_string(),
-        if OS_VERSIONS.contains(&params.os_version.as_str()) {
+        if OS_VERSIONS.contains(&params.os_version) {
             params.os_version.to_string()
         } else {
             OS_VERSIONS.first().unwrap().to_string()
