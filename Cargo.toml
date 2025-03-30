@@ -17,3 +17,10 @@ serde = { version = "1.0.219", features = ["derive"] }
 zip = { version = "2.5", features = ["time"] }
 regex = "1.11"
 time = "0.3"
+
+[profile.release]
+opt-level = "s"
+codegen-units = 1
+lto = "thin"
+strip = true
+panic = "abort"
