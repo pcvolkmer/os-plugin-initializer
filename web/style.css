@@ -1,15 +1,23 @@
 @import "tailwindcss";
 
+* {
+    @apply dark:text-white
+}
+
 body {
-    @apply bg-slate-200 flex flex-col h-screen;
+    @apply bg-white dark:bg-gray-950 flex flex-col h-screen;
 }
 
 main {
-    @apply bg-white container mx-auto px-10 py-1 flex-grow;
+    @apply container mx-auto px-10 py-1 flex-grow;
 }
 
 footer {
-    @apply bg-slate-600 text-slate-200 container mx-auto px-10 py-5 bottom-0
+    @apply bg-slate-600 dark:bg-slate-800
+}
+
+footer > div {
+    @apply text-slate-200 container mx-auto px-10 py-5 bottom-0
 }
 
 h1 {
@@ -22,6 +30,10 @@ h2 {
 
 main .logo {
     @apply h-10 my-5
+}
+
+main .logo #svg-os {
+    @apply dark:fill-white
 }
 
 main > form {
@@ -57,14 +69,18 @@ input[type=radio]:hover {
 }
 
 #submit {
-    @apply border-2 border-black rounded-md px-6 py-2 uppercase font-bold mx-auto my-8 w-fit block transition-colors duration-100
+    @apply border-2 border-black dark:border-white rounded-md px-6 py-2 uppercase font-bold mx-auto my-8 w-fit block transition-colors duration-100
 }
 #submit:focus-visible,
 #submit:hover {
-    @apply bg-black text-white outline-none;
+    @apply bg-black text-white dark:bg-white dark:text-black outline-none;
 }
 #submit > .key {
-    @apply font-normal
+    @apply font-normal transition-colors duration-100
+}
+#submit:focus-visible > .key,
+#submit:hover > .key {
+    @apply text-white dark:text-black
 }
 
 .control-inline {
