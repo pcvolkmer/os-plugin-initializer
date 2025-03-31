@@ -40,6 +40,10 @@ struct Params {
     package_name: String,
 }
 
+fn base_url() -> Option<String> {
+    env::var("BASE_URL").ok()
+}
+
 #[derive(Template)]
 #[template(path = "index.html")]
 struct IndexTemplate {

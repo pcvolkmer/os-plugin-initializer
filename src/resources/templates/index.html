@@ -2,6 +2,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    {% if let Some(base_url) = self::base_url() %}
+    <base href="{{ base_url }}">
+    {% endif %}
     <title>Onkostar Plugin Initializer</title>
     <link href="assets/main.css" rel="stylesheet" />
 </head>
