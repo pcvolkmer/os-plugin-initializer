@@ -21,9 +21,9 @@
         <onkostar-version>{{ os_version }}</onkostar-version>
 
         <!-- Test dependencies -->
-        <junit-version>5.11.3</junit-version>
-        <assertj-version>3.26.3</assertj-version>
-        <mockito-version>5.14.2</mockito-version>
+        <junit-version>5.12.1</junit-version>
+        <assertj-version>3.27.3</assertj-version>
+        <mockito-version>5.16.1</mockito-version>
     </properties>
 
 
