@@ -28,7 +28,7 @@ public class ExampleAnalyzer implements IProcedureAnalyzer {
 
     @Override
     public OnkostarPluginType getType() {
-        return OnkostarPluginType.BACKEND_SERVICE;
+        return OnkostarPluginType.ANALYZER;
     }
 
     @Override
