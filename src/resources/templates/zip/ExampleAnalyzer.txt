@@ -78,7 +78,7 @@ public class ExampleAnalyzer implements IProcedureAnalyzer {
      *
      * <pre>
      *      executePluginMethod(
-     *          'ExamplePlugin',
+     *          'ExampleAnalyzer',
      *          'demo',
      *          { value: 'Patrick Tester' },
      *          function (result) {console.log(result);},
