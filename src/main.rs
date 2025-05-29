@@ -26,7 +26,7 @@ static OS_VERSIONS: LazyLock<Vec<String>> = LazyLock::new(|| {
     env::var("OS_VERSIONS")
         .unwrap_or_else(|_| "2.14.0.1,2.13.2".to_string())
         .split(",")
-        .map(|v| v.to_string())
+        .map(|v| v.trim().to_string())
         .collect::<Vec<String>>()
 });
 
