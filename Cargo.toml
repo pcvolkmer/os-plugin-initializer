@@ -14,7 +14,7 @@ tracing-subscriber = "0.3"
 tracing = "0.1"
 include_dir = "0.7"
 serde = { version = "1.0", features = ["derive"] }
-zip = { version = "4.0", features = ["time"] }
+zip = { version = "4.2", features = ["time"] }
 regex = "1.11"
 time = "0.3"
 
