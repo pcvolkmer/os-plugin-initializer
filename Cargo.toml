@@ -18,6 +18,9 @@ zip = { version = "4.2", features = ["time"] }
 regex = "1.11"
 time = "0.3"
 
+[dev-dependencies]
+tower = "0.5.2"
+
 [profile.release]
 opt-level = "s"
 codegen-units = 1

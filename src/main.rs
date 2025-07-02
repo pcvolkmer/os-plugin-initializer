@@ -2,14 +2,14 @@ mod zip_file;
 
 use crate::zip_file::ProjectFile;
 use askama::Template;
-use axum::Router;
 use axum::body::Body;
 use axum::extract::{Path, Query};
-use axum::http::StatusCode;
 use axum::http::header::CONTENT_TYPE;
+use axum::http::StatusCode;
 use axum::response::{Html, IntoResponse, Response};
 use axum::routing::get;
-use include_dir::{Dir, include_dir};
+use axum::Router;
+use include_dir::{include_dir, Dir};
 use serde::Deserialize;
 use std::sync::LazyLock;
 use std::{env, path};
@@ -81,7 +81,10 @@ async fn zip_package(params: Query<Params>) -> impl IntoResponse {
     .into_inner()
     .into_inner();
 
-    Response::builder().body(Body::from(zip)).unwrap()
+    Response::builder()
+        .header(CONTENT_TYPE, "application/zip")
+        .body(Body::from(zip))
+        .unwrap()
 }
 
 async fn serve_asset(path: Option<Path<String>>) -> impl IntoResponse {
@@ -130,16 +133,7 @@ async fn main() {
             .init();
     }
 
-    let app = Router::new()
-        .route("/", get(index))
-        .route("/project.zip", get(zip_package))
-        .route(
-            "/assets/{*path}",
-            get(|path| async { serve_asset(path).await }),
-        );
-
-    #[cfg(debug_assertions)]
-    let app = app.layer(TraceLayer::new_for_http());
+    let app = app();
 
     let listener_address = env::var("LISTENER_ADDRESS").unwrap_or_else(|_| "[::]:3000".to_string());
 
@@ -163,6 +157,19 @@ async fn main() {
     }
 }
 
+fn app() -> Router {
+    let app = Router::new()
+        .route("/", get(index))
+        .route("/project.zip", get(zip_package))
+        .route(
+            "/assets/{*path}",
+            get(|path| async { serve_asset(path).await }),
+        );
+
+    #[cfg(debug_assertions)]
+    app.layer(TraceLayer::new_for_http())
+}
+
 async fn shutdown_signal() {
     #[cfg(unix)]
     let terminate = async {
@@ -176,4 +183,38 @@ async fn shutdown_signal() {
     let terminate = std::future::pending::<()>();
 
     terminate.await;
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use axum::{
+        body::Body,
+        http::{Request, StatusCode},
+    };
+    use tower::ServiceExt;
+
+    #[tokio::test]
+    async fn zip_response_with_http_content_type() {
+        let app = app();
+
+        let uri = "/project.zip\
+                        ?project_type=gradle\
+                        &os_version=2.14.1\
+                        &group=org.example\
+                        &artifact=project\
+                        &description=Projekt\
+                        &package_name=org.example.project";
+
+        let response = app
+            .oneshot(Request::builder().uri(uri).body(Body::empty()).unwrap())
+            .await
+            .unwrap();
+
+        assert_eq!(response.status(), StatusCode::OK);
+        assert_eq!(
+            &response.headers().get("Content-Type").unwrap(),
+            &"application/zip"
+        );
+    }
 }
