@@ -114,11 +114,11 @@ async fn serve_asset(path: Option<Path<String>>) -> impl IntoResponse {
                 }
             }
             None => Response::builder()
-                .status(404)
+                .status(StatusCode::NOT_FOUND)
                 .body(Body::from("".as_bytes())),
         },
         None => Response::builder()
-            .status(400)
+            .status(StatusCode::BAD_REQUEST)
             .body(Body::from("".as_bytes())),
     }
     .unwrap()
@@ -150,10 +150,10 @@ async fn main() {
                 .await
             {
                 Ok(_) => {}
-                Err(err) => error!("Unable to start application: {}", err),
+                Err(err) => error!("Unable to start application: {err}"),
             }
         }
-        Err(err) => error!("Unable to bind server port: {}", err),
+        Err(err) => error!("Unable to bind server port: {err}"),
     }
 }
 
