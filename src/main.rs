@@ -167,7 +167,9 @@ fn app() -> Router {
         );
 
     #[cfg(debug_assertions)]
-    app.layer(TraceLayer::new_for_http())
+    let app = app.layer(TraceLayer::new_for_http());
+
+    app
 }
 
 async fn shutdown_signal() {
