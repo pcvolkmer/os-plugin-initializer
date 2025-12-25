@@ -1,9 +1,14 @@
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
 export default {
     entry: {
         main: './web/script.js',
     },
     output: {
-        path: './src/resources/assets',
+        path: path.resolve(__dirname, './src/resources/assets'),
         chunkFilename: '[id].js'
     },
     module: {
