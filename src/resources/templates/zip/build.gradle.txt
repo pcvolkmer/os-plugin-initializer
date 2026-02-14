@@ -16,9 +16,10 @@ ext {
     onkostarVersion = '{{ os_version }}'
     springVersion = '4.3.8.RELEASE'
     slf4jVersion = '1.7.2'
-    junitVersion = '5.12.1'
+    junitVersion = '5.13.3'
+    junitPlatformVersion = '1.13.3'
     assertjVersion = '3.27.3'
-    mockitoVersion = '5.16.1'
+    mockitoVersion = '5.18.0'
 }
 
 dependencies {
@@ -36,6 +37,7 @@ dependencies {
     testImplementation "org.mockito:mockito-junit-jupiter:${mockitoVersion}"
     testImplementation "ca.uhn.hapi:hapi-structures-v26:2.3"
     testImplementation "org.hibernate:hibernate-core:4.3.11.Final"
+    testRuntimeOnly "org.junit.platform:junit-platform-launcher:${junitPlatformVersion}"
 }
 
 tasks.named('test') {
