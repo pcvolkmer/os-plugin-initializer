@@ -6,8 +6,8 @@
     "tailwindcss": "~4.1.18"
   },
   "devDependencies": {
-    "@rspack/core": "~1.6.8",
-    "@rspack/cli": "~1.6.8",
+    "@rspack/core": "~1.7.3",
+    "@rspack/cli": "~1.7.3",
     "@tailwindcss/postcss": "~4.1.18",
     "@tailwindcss/cli": "~4.1.18",
     "autoprefixer": "~10.4.21",

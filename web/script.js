@@ -32,7 +32,7 @@ document.addEventListener('keydown', (e) => {
         handleDownload();
     }
 });
-document.getElementById('submit').addEventListener('click', (e) => {
+document.getElementById('submit').addEventListener('click', (_) => {
     handleDownload();
 });
 document.getElementById('group').addEventListener('input', (e) => {

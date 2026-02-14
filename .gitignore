@@ -33,6 +33,3 @@ out/
 /target
 
 /src/resources/assets/main*
-
-Cargo.lock
-package-lock.json
